@@ -11,7 +11,7 @@
 $max = 10;
 $min = 1;
 
-$select_q = 1; 
+$select_q = 3; 
     
     
     ?>
@@ -20,7 +20,7 @@ $select_q = 1;
     <tr>
         <td>1</td>
         <td>helo</td>
-        <td><input type="checkbox" checked></td>
+        <td><input type="checkbox"></td>
     </tr>
     <tr>
         <td>2</td>
@@ -35,7 +35,7 @@ $select_q = 1;
     <tr>
         <td>4</td>
         <td>helo</td>
-        <td><input type="checkbox" checked></td>
+        <td><input type="checkbox"></td>
     </tr>
     <tr>
         <td>5</td>
@@ -109,6 +109,9 @@ function createArrayOfNumbers(start, end){
 let numbersArray = createArrayOfNumbers(smin,smax);
 
 btn.addEventListener('click', () => {
+let it = 0;
+while (it<=smax) {
+    it++;
 
     if(numbersArray.length == 0){
         while (temp<sselect) {
@@ -125,6 +128,9 @@ btn.addEventListener('click', () => {
     output.innerText = randomNumber;
     random_array.push(randomNumber);
     console.log(random_array);
+    
+}
+    
 
 
 });
