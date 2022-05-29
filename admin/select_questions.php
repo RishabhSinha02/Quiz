@@ -172,7 +172,7 @@ if (isset($_POST['sEmail'])) {  //Check for Add for Inserting data to list
                                 Quiz.</font>
                         </th>
                         <th colspan='2' class="text-center">
-                            <font size="5"> <button id="select_random" class="btn btn-primary"><b>Select Random</b></button>
+                            <font size="5"> <button type="button" id="select_random" class="btn btn-primary"><b>Select Random</b></button>
                             </font>
                         </th>
                         <th colspan='2' class="text-center">
