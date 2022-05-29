@@ -128,6 +128,8 @@ tr:hover {
 <body>
 
 
+
+
     <?php
 //  Adding Quiz Subject
 if (isset($_POST['sEmail'])) {  //Check for Add for Inserting data to list
@@ -143,6 +145,7 @@ if (isset($_POST['sEmail'])) {  //Check for Add for Inserting data to list
   $subject = $srows['subject'];
 
 ?>
+
 
     <div class="card mb-4 content" style="padding:20px;">
         <div>
@@ -286,6 +289,14 @@ if ($_SESSION['totalquestionaddedfor'.$subject]==0) {
 
 
 
+        <?php
+$max = $qsno;
+$min = 1;
+
+$select_q = $totalquestion; 
+    
+    
+    ?>
 
 
 
@@ -332,10 +343,21 @@ else{
     </script>
 
 
+
+
+
 <!-- For selection Random Quesrions  -->
 <script type="text/javascript">
 
 let btn = document.getElementById('select_random');
+let output = document.getElementById('output');
+
+let smax = <?php echo $max ?>;
+let smin = <?php echo $min ?>;
+let sselect = <?php echo $select_q ?>;
+let random_array = [];
+let random_array_q = [];
+let temp = 0;
 
 
 function getRandomNumber(min, max) {
@@ -351,22 +373,45 @@ function createArrayOfNumbers(start, end){
     }
     return myArray;
 }
-let numbersArray = createArrayOfNumbers(1,10);
+
+let numbersArray = createArrayOfNumbers(smin,smax);
+
 btn.addEventListener('click', () => {
+let it = 0;
+while (it<=smax) {
+    it++;
+
     if(numbersArray.length == 0){
-        output.innerText = 'No More Random Numbers';
+        while (temp<sselect) {
+            var a = random_array[temp];
+            random_array_q.push(a);
+            temp = temp + 1;
+        }
+        random_array_q.forEach(element => {
+            // btn-check-'.$qsno.'-outlined
+            const ran = document.getElementById("btn-check-"+element+"-outlined");
+            ran.checked = true;
+        });
+        // output.innerText = random_array_q;
         return;
     }
     let randomIndex = getRandomNumber(0, numbersArray.length-1);
     let randomNumber = numbersArray[randomIndex];
-    numbersArray.splice(randomIndex, 1)
-    output.innerText = randomNumber;
+    numbersArray.splice(randomIndex, 1);
+    // output.innerText = randomNumber;
+    random_array.push(randomNumber);
+    console.log(random_array);
+    
+}
+    
+
+
 });
 
+
+
+
 </script>
-
-
-
 
 
 
