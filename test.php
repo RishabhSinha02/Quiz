@@ -20,52 +20,52 @@ $select_q = 3;
     <tr>
         <td>1</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="1"></td>
     </tr>
     <tr>
         <td>2</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="2"></td>
     </tr>
     <tr>
         <td>3</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="3"></td>
     </tr>
     <tr>
         <td>4</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="4"></td>
     </tr>
     <tr>
         <td>5</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="5"></td>
     </tr>
     <tr>
         <td>6</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="6"></td>
     </tr>
     <tr>
         <td>7</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="7"></td>
     </tr>
     <tr>
         <td>8</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="8"></td>
     </tr>
     <tr>
         <td>9</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="9"></td>
     </tr>
     <tr>
         <td>10</td>
         <td>helo</td>
-        <td><input type="checkbox"></td>
+        <td><input type="checkbox" id="10"></td>
     </tr>
 </table>
 
@@ -119,6 +119,10 @@ while (it<=smax) {
             random_array_q.push(a);
             temp = temp + 1;
         }
+        random_array_q.forEach(element => {
+            const ran = document.getElementById(element);
+            ran.checked = true;
+        });
         output.innerText = random_array_q;
         return;
     }
@@ -135,9 +139,11 @@ while (it<=smax) {
 
 });
 
+
+
+
 </script>
-
-
+<!-- <input type="checkbox" class="btn-check" name="quiz_question[]" id="btn-check-4-outlined" autocomplete="off" value="46" onclick="return select_only()"> -->
 
 
 </body>
