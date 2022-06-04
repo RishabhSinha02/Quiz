@@ -80,7 +80,7 @@ $select_q = 3;
 
 <!-- For selection Random Quesrions  -->
 <script type="text/javascript">
-
+let random_active = 0;
 let btn = document.getElementById('select_random');
 let output = document.getElementById('output');
 
@@ -109,6 +109,10 @@ function createArrayOfNumbers(start, end){
 let numbersArray = createArrayOfNumbers(smin,smax);
 
 btn.addEventListener('click', () => {
+if (random_active == 1) {
+    
+    
+}
 let it = 0;
 while (it<=smax) {
     it++;
@@ -123,7 +127,9 @@ while (it<=smax) {
             const ran = document.getElementById(element);
             ran.checked = true;
         });
+        random_active = 1;
         output.innerText = random_array_q;
+        
         return;
     }
     let randomIndex = getRandomNumber(0, numbersArray.length-1);

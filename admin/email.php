@@ -15,7 +15,7 @@ Following are the details for you to appear Quiz. <br><br>
 Username: ".$username." <br>
 Password: ".$password." <br>
 <br>
-Exam link: http://localhost/Quiz/index.php <br>
+Exam link: http://54.82.240.8/Quiz <br>
 <br>
 Please do not share this password with anyone.  <br> <br> <br>
 This is Auto Generated Email. Please do not reply to this mail. For any Query you can contact to your teacher. <br> <br>
@@ -30,7 +30,7 @@ $mail->Port=587;
 $mail->SMTPSecure="tls";
 $mail->SMTPAuth=true;
 $mail->Username="fs19co057.rishabh.sinha@gmail.com";
-$mail->Password="fs19co057@2002";
+$mail->Password="Password.test@2002";
 $mail->SetFrom("fs19co057.rishabh.sinha@gmail.com");
 $mail->addAddress($username);
 $mail->IsHTML(true);
