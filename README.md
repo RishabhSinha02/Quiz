@@ -151,14 +151,25 @@ For Student:
 
 
 •	After you login to the website with username and password which will be provided by the admin through mail, you will redirected to the Quiz instruction Page.
+
 •	You can logout to the website by clicking on ‘Logout’ button appearing on right top side. 
+
 •	On this page you will be provided some exam instructions. And below, You have ‘Enter Exam’ button.
+
 •	Student can attempt quiz for multiple times.
+
 •	After click on ‘Enter Exam’ button you will redirect to the quiz section and your exam will start along with countdown timer or with no limit according to the exam duration set by the admin. 
+
 •	In Quiz section, You will get only single question displayed at a time. Choose the correct option out of 4 and click on ‘Next’ button for appear next question.
+
 •	You can’t go back to the previous question once you click on next button for next question.
+
 •	After exam complete user can see their result along with how many questions was there in exam and how many correct and how many incorrect answers.
+
 •	Student can see exam solutions also by clicking on ‘View Question’ button.
+
 •	The Result will be submitted to the admin along with correct attempts and wrong attempts list.
+
 •	After that you can logout to the website by clicking on ‘Logout’ button appearing on right top side. 
+
 
