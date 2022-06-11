@@ -160,6 +160,10 @@ tr:hover {
                         <a class="nav-link active" aria-current="page" href="/Quiz/admin/addstudent.php"><b><button
                                     type="button" class="btn btn-success">Students</button></b></a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Quiz/admin/add_class.php"><b><button
+                                    type="button" class="btn btn-dark">Class</button></b></a>
+                    </li>
                     
                     <li class="nav-item">
                         <a class="nav-link" href="/Quiz/admin/result.php"><button type="button"
