@@ -28,36 +28,35 @@ error_reporting(E_ERROR | E_PARSE);
 </head>
 
 <style>
-
 body {
     background-color: rgb(209, 203, 255);
-  }
+}
 
-  .main {
+.main {
     padding: 15px;
     font-family: Arial, Helvetica, sans-serif;
-  }
+}
 
 
-  .sidebar a {
+.sidebar a {
     margin-left: 10px;
     display: block;
     color: white;
     padding-bottom: 10px;
     font-size: 30px;
     text-decoration: none;
-  }
+}
 
-  .card {
+.card {
     position: relative;
     display: flex;
     flex-direction: column;
     height: 200%;
-  }
+}
 
-  .content {
+.content {
     background-color: whitesmoke;
-  }
+}
 
 
 
@@ -73,7 +72,7 @@ table {
     /* height: 200px; */
     border: 1px solid #bdc3c7;
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
-    
+
 }
 
 tr {
@@ -111,7 +110,8 @@ tr:hover {
     transform: scale(1.02);
     box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2), -1px -1px 8px rgba(0, 0, 0, 0.2);
 }
-#content-table tbody tr:last-of-type{
+
+#content-table tbody tr:last-of-type {
     border-bottom: 2x solid #009879;
 }
 
@@ -120,7 +120,6 @@ tr:hover {
         width: 90%;
     }
 }
-
 </style>
 
 
@@ -134,7 +133,10 @@ tr:hover {
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/Quiz/admin/addstudent.php"><b><font color="#16a085">THE </font><font size="6" color="#5A6EA5"> QUIZ </font></b></a> &nbsp &nbsp
+            <a class="navbar-brand" href="/Quiz/admin/addstudent.php"><b>
+                    <font color="#16a085">THE </font>
+                    <font size="6" color="#5A6EA5"> QUIZ </font>
+                </b></a> &nbsp &nbsp
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="Toggle navigation">
@@ -142,8 +144,12 @@ tr:hover {
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                   
 
+
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Quiz/admin/add_class.php"><b><button
+                                    type="button" class="btn btn-success">Class</button></b></a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Quiz/admin/addsubjects.php"><button type="button"
                                 class="btn btn-dark">Subjects</button></a>
@@ -161,11 +167,8 @@ tr:hover {
                                     type="button" class="btn btn-dark">Students</button></b></a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/Quiz/admin/add_class.php"><b><button
-                                    type="button" class="btn btn-success">Class</button></b></a>
-                    </li>
-                    
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="/Quiz/admin/result.php"><button type="button"
                                 class="btn btn-dark">Results</button></a>
@@ -316,7 +319,8 @@ if(isset($_GET['udelete'])){
                         <div class="mb-3">
                             <label for="classname" class="form-label">Class Name</label>
                             <div class="input-group">
-                                <span class="input-group-text" id="inputGroupPrepend"><i data-feather="users"></i></span>
+                                <span class="input-group-text" id="inputGroupPrepend"><i
+                                        data-feather="users"></i></span>
                                 <input type="classname" class="form-control" id="classname" name="classname"
                                     aria-describedby="classname" required>
                                 <div class="invalid-feedback">
@@ -326,7 +330,7 @@ if(isset($_GET['udelete'])){
                         </div>
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                                <textarea type="textarea" class="form-control" id="description" name="description"
+                            <textarea type="textarea" class="form-control" id="description" name="description"
                                 aria-describedby="description" required> </textarea>
                             <div class="invalid-feedback">
                                 This field is required.
@@ -363,12 +367,12 @@ if(isset($_GET['udelete'])){
                         <input type="hidden" class="form-control" id="ename" name="ename" aria-describedby="ename">
                         <input type="hidden" name="eEmail" id="eEmail">
                         <div class="mb-3">
-                            <label for="show" class="form-label">Username</label>
+                            <label for="show" class="form-label">Classname</label>
                             <input type="name" class="form-control" id="show" name="show" aria-describedby="show"
                                 disabled>
                         </div>
-                        <input type="hidden" class="form-control" id="eusername" name="eusername"
-                            aria-describedby="eusername">
+                        <input type="hidden" class="form-control" id="eclassname" name="eclassname"
+                            aria-describedby="eclassname">
                         <div class="mb-3">
                             <label for="totalquestion" class="form-label">Password</label>
                             <input type="text" class="form-control" id="epassword" name="epassword"
@@ -521,7 +525,8 @@ if(isset($_GET['udelete'])){
                                             <button class="add btn btn-success" id="" type="submit"
                                                 data-bs-toggle="modal" data-bs-target="#modal">
                                                 <font size="4"><i data-feather="user-plus"></i>
-                                                <b> ADD</b></font>
+                                                    <b> ADD</b>
+                                                </font>
                                             </button>
                                         </th>
 
@@ -591,7 +596,7 @@ if ($row['testStatus']=='false') {
                 </div>
 
 
-                
+
             </div>
 
 
@@ -697,10 +702,10 @@ if ($row['testStatus']=='false') {
                 element.addEventListener("click", (e) => {
                     tr = e.target.parentNode.parentNode;
                     name = tr.getElementsByTagName("td")[0].innerText;
-                    username = tr.getElementsByTagName("td")[1].innerText;
-                    eusername.value = username;
+                    classname = tr.getElementsByTagName("td")[0].innerText;
+                    eclassname.value = classname;
                     ename.value = name;
-                    show.value = username;
+                    show.value = classname;
                 })
             })
 

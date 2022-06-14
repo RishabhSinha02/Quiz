@@ -144,7 +144,10 @@ tr:hover {
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    
+                <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Quiz/admin/add_class.php"><b><button
+                                    type="button" class="btn btn-dark">Class</button></b></a>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="/Quiz/admin/addsubjects.php"><button type="button"
@@ -163,10 +166,7 @@ tr:hover {
                                     type="button" class="btn btn-dark">Students</button></b></a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/Quiz/admin/add_class.php"><b><button
-                                    type="button" class="btn btn-dark">Class</button></b></a>
-                    </li>
+                    
                     
                     <li class="nav-item">
                         <a class="nav-link" href="/Quiz/admin/result.php"><button type="button"

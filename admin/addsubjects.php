@@ -143,6 +143,10 @@ tr:hover {
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                    
 
+            <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/Quiz/admin/add_class.php"><b><button
+                                    type="button" class="btn btn-dark">Class</button></b></a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/Quiz/admin/addsubjects.php"><button type="button"
                                 class="btn btn-success">Subjects</button></a>
@@ -159,10 +163,7 @@ tr:hover {
                         <a class="nav-link active" aria-current="page" href="/Quiz/admin/addstudent.php"><b><button
                                     type="button" class="btn btn-dark">Students</button></b></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/Quiz/admin/add_class.php"><b><button
-                                    type="button" class="btn btn-dark">Class</button></b></a>
-                    </li>
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="/Quiz/admin/result.php"><button type="button"
                                 class="btn btn-dark">Results</button></a>
@@ -189,10 +190,16 @@ tr:hover {
 //  Adding Subject
 if (isset($_POST['sEmail'])) {  //Check for Add for Inserting data to list
   $subject = $_POST['subject'];
+  $class_id = $_POST['class_id'];
   $description = $_POST['description'];
 
+  $vsql = "SELECT * FROM `class` WHERE `class_id` = '$class_id'";
+  $vresult = mysqli_query($conn, $vsql);
+  $vrow = mysqli_fetch_assoc($vresult);
+  $class_name = $vrow['class_name'];
+  
 
-  $sql = "INSERT INTO `subjects` (`subject`, `description`) VALUES ('$subject', '$description')";
+  $sql = "INSERT INTO `subjects` (`subject`, `description`, `class_id`, `class_name`) VALUES ('$subject', '$description', '$class_id', '$class_name')";
   $result = mysqli_query($conn, $sql);
 ?>
     <div class="alert alert-warning alert-dismissible fade show" role="alert" id="subject-success-alert">
@@ -245,8 +252,32 @@ if(isset($_GET['delete'])){
                 </div>
                 <div class="modal-body">
                     <!-- Subject Modal form  -->
+
                     <form action="/Quiz/admin/addsubjects.php" method="post" class="row g-3 needs-validation"
                         novalidate>
+                        <div class="mb-3">
+                            <label for="class_id" class="form-label">Class</label>
+
+                            <select class="form-control" id="class_id" name="class_id" aria-describedby="class_id"
+                                required>
+                                <option value="">Select Class</option>
+                                <?php
+                  $query = "select * from class";
+                  $qresult = mysqli_query($conn,$query);
+                  while ($qrows = mysqli_fetch_array($qresult)) {
+                    ?>
+                                <option value="<?php echo $qrows['class_id'];?>"><?php echo $qrows['class_name'];?>
+                                </option>
+                                <?php
+                  }
+                  ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                This field is required.
+                            </div>
+
+                        </div>
+
                         <input type="hidden" name="sEmail" id="sEmail">
                         <div class="mb-3">
                             <label for="subject" class="form-label">Course Name</label>
@@ -325,6 +356,7 @@ if(isset($_GET['delete'])){
                                             <center>SR. No.</center>
                                         </th>
                                         <th scope="col">Subject</th>
+                                        <th scope="col">Class</th>
                                         <th scope="col">Description</th>
                                         <th scope="col">Actions</th>
                                     </tr>
@@ -340,6 +372,7 @@ if(isset($_GET['delete'])){
                   echo "<tr>
                   <th scope='row'><center>$sno</center></th>
                   <td>" . $row['subject'] . "</td>
+                  <td>" . $row['class_name'] . "</td>
                   <td>" . $row['description'] ."</td>
                   <td>
                   <button class='delete btn btn-sm btn-danger' type='submit' id='d".$row['sid']."'> Delete </button>
