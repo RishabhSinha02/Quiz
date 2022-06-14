@@ -224,26 +224,18 @@ $_SESSION['mailStatus']='Pending';
 
 
 // Adding Users 
-if (isset($_POST['username'])) { 
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $quiz_subject_id = $_POST['test'];
-    $teststatus = $_POST['teststatus'];
-
-
-    $isql = "SELECT * FROM `quiz_subjects` WHERE `quiz_subject_id` = '$quiz_subject_id'";
-    $iresult = mysqli_query($conn, $isql);
-    $irow = mysqli_fetch_assoc($iresult);
-    $test = $irow['quiz_subject'];
+if (isset($_POST['classname'])) { 
+    $class_name = $_POST['classname'];
+    $description = $_POST['description'];
 
 
 
-    $sql = "INSERT INTO `users` (`username`, `email`, `password`, `test`, `quiz_subject_id`, `testStatus`, `role`) VALUES ('$username', '$email', '', '$test', '$quiz_subject_id', '$teststatus', 2)";
+    $sql = "INSERT INTO `class` (`class_name`, `description`) VALUES ('$class_name', '$description')";
     $result = mysqli_query($conn, $sql);
 
     echo '
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Success!</strong> User has been added for : <b><strong><u>'.$username.'</strong></b></u>
+    <strong>Success!</strong> Class has been added for : <b><strong><u>'.$class_name.'</strong></b></u>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 ';
@@ -308,72 +300,34 @@ if(isset($_GET['udelete'])){
     <!-- MODALS  -->
 
 
-    <!--Modal for adding Students -->
+    <!--Modal for adding Classes -->
     <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="modalLabel">Add Student</h3>
+                    <h3 class="modal-title" id="modalLabel">Add Class</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
 
                     <!-- Modal form  -->
 
-                    <form action="/Quiz/admin/addstudent.php" method="post" class="row g-3 needs-validation" novalidate>
+                    <form action="/Quiz/admin/add_class.php" method="post" class="row g-3 needs-validation" novalidate>
                         <div class="mb-3">
-                            <label for="username" class="form-label">Name</label>
+                            <label for="classname" class="form-label">Class Name</label>
                             <div class="input-group">
-                                <span class="input-group-text" id="inputGroupPrepend"><i data-feather="user"></i></span>
-                                <input type="username" class="form-control" id="username" name="username"
-                                    aria-describedby="username" required>
+                                <span class="input-group-text" id="inputGroupPrepend"><i data-feather="users"></i></span>
+                                <input type="classname" class="form-control" id="classname" name="classname"
+                                    aria-describedby="classname" required>
                                 <div class="invalid-feedback">
                                     This field is required.
                                 </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <div class="input-group">
-                                <span class="input-group-text" id="inputGroupPrepend">
-                                    <font size="5">@</font>
-                                </span>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    aria-describedby="email" required>
-                                <div class="invalid-feedback">
-                                    This field is required.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="test" class="form-label">Test</label>
-
-                            <select class="form-control" id="test" name="test" aria-describedby="test" required>
-                                <option value="">Select Subject</option>
-                                <?php
-                  $query = "select * from quiz_subjects";
-                  $qresult = mysqli_query($conn,$query);
-                  while ($qrows = mysqli_fetch_array($qresult)) {
-                    ?>
-                                <option value="<?php echo $qrows['quiz_subject_id'];?>">
-                                    <?php echo $qrows['quiz_subject'];?></option>
-                                <?php
-                  }
-                  ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                This field is required.
-                            </div>
-
-                        </div>
-                        <div class="mb-3">
-                            <label for="teststatus" class="form-label">Test Status</label>
-                            <select class="form-control" id="teststatus" name="teststatus" aria-describedby="teststatus"
-                                required>
-                                <option value="">Choose test status</option>
-                                <option value="true">Active</option>
-                                <option value="false">Closed</option>
-                            </select>
+                            <label for="description" class="form-label">Description</label>
+                                <textarea type="textarea" class="form-control" id="description" name="description"
+                                aria-describedby="description" required> </textarea>
                             <div class="invalid-feedback">
                                 This field is required.
                             </div>
@@ -559,7 +513,7 @@ if(isset($_GET['udelete'])){
                                 <tbody>
                                     <tr id="title">
                                         <th width="85%">
-                                            <h2>&nbsp Students</h2>
+                                            <h2>&nbsp Class</h2>
                                         </th>
 
 
@@ -585,10 +539,10 @@ if(isset($_GET['udelete'])){
                                             <th scope="col">
                                                 <center>SR. No.</center>
                                             </th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Test</th>
-                                            <th scope="col">Activity</th>
+                                            <th scope="col">Class</th>
+                                            <th scope="col">Description</th>
+                                            <th scope="col">Subjects</th>
+                                            <th scope="col">Students</th>
                                             <th scope="col">Link</th>
                                             <th scope="col">Actions</th>
                                         </tr>
@@ -597,16 +551,18 @@ if(isset($_GET['udelete'])){
 
                                         <?php 
               include "Partial/dpconnect.php";
-              $sql = "SELECT * FROM `users` WHERE `role`=2";
+              $sql = "SELECT * FROM `class`";
               $result = mysqli_query($conn, $sql);
               $sno = 0;
               while($row = mysqli_fetch_assoc($result)){
                   $sno+=1;
                   echo "<tr>
                   <th scope='row'><center>$sno</center></th>
-                  <td>" . $row['username'] . "</td>
-                  <td>" . $row['email'] . "</td>
-                  <td>" . $row['test'] . "</td>
+                  <td>" . $row['class_name'] . "</td>
+
+                  <td>" . $row['description'] . "</td>
+                  <td>10</td>
+                  <td>10</td>
                   ";
                   if ($row['testStatus']=='true') {
                     echo "<td class='text-success'> <b> Active</b> </td>";
