@@ -244,7 +244,80 @@ else {
                         </table>
 
 
+<!-- Student Table  -->
 
+
+<center>
+                            <br>
+                            <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
+                                <tbody>
+                                    <tr id="title">
+                                        <th width="85%">
+                                            <h2>&nbsp Students</h2>
+                                        </th>
+
+
+                                        <th width="15%">
+                                            <button class="add btn btn-success" id="" type="submit"
+                                                data-bs-toggle="modal" data-bs-target="#modal">
+                                                <font size="4"><i data-feather="user-plus"></i>
+                                                <b> ADD</b></font>
+                                            </button>
+                                        </th>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                            <font size="2">
+
+
+                                <table id="content-table" class="content-table">
+                                    <thead>
+                                        <tr id="header">
+                                            <th scope="col">
+                                                <center>SR. No.</center>
+                                            </th>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Test</th>           
+                                            <th scope="col">Link</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <?php 
+              include "Partial/dpconnect.php";
+              $sql = "SELECT * FROM `users` WHERE `class_id` = '$class_id' AND `role` = 2 ORDER BY `class_id` ASC";
+              $result = mysqli_query($conn, $sql);
+              $sno = 0;
+              while($row = mysqli_fetch_assoc($result)){
+                  $sno+=1;
+                  echo "<tr>
+                  <th scope='row'><center>$sno</center></th>
+                  <td>" . $row['username'] . "</td>
+                  <td>" . $row['email'] . "</td>
+
+                  <td>" . $row['test'] . "</td>
+                  ";
+                  echo "
+                  
+                  
+                  <td><button class='mail btn btn-sm btn-success'  type='submit' data-bs-toggle='modal'
+                  data-bs-target='#emodal'>Mail</button> </td>
+
+                  <td><button class='ueedit btn btn-sm btn-primary' type='submit' data-bs-toggle='modal'
+                  data-bs-target='#ueedit'>Edit</button>
+                  <button class='udelete btn btn-sm btn-danger' id='u".$row['sno']."' type='submit'>Delete</button></td>
+              </tr>";
+              }
+?>
+                                    </tbody>
+                                </table>
+
+                        </center>
 
 
 
