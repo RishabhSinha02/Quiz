@@ -126,7 +126,6 @@ tr:hover {
 
 
 <body>
-
     <!-- body  -->
 
 
@@ -276,18 +275,18 @@ if (isset($_POST['ueusername'])) {
 
 //  Deleteing the Users
 if(isset($_GET['udelete'])){
-    $sno = $_GET['udelete'];
+    $class_id = $_GET['udelete'];
 
-    $vsql = "SELECT * FROM `users` where `users`.`sno` = '$sno'";
+    $vsql = "SELECT * FROM `class` where `class`.`class_id` = '$class_id'";
     $vresult = mysqli_query($conn, $vsql);
     $vrow = mysqli_fetch_assoc($vresult);
-    $deleteuser = $vrow['username'];
+    $deleteclass = $vrow['class_name'];
 
-      $sql = "DELETE FROM `users` WHERE `users`.`sno` = '$sno'";
+      $sql = "DELETE FROM `class` WHERE `class`.`class_id` = '$class_id'";
       $result = mysqli_query($conn, $sql);
       echo '
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Student has been deleted for: <b><u><strong>'.$deleteuser.'</strong></b></u>
+        <strong>Success!</strong> Class has been deleted for: <b><u><strong>'.$deleteclass.'</strong></b></u>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
     ';
@@ -373,14 +372,32 @@ if(isset($_GET['udelete'])){
                         </div>
                         <input type="hidden" class="form-control" id="eclassname" name="eclassname"
                             aria-describedby="eclassname">
+
+
                         <div class="mb-3">
-                            <label for="totalquestion" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="epassword" name="epassword"
-                                aria-describedby="epassword" required>
+                            <label for="class_id" class="form-label">Subject</label>
+
+                            <select class="form-control" id="class_id" name="class_id" aria-describedby="class_id"
+                                required>
+                                <option value="">Select Class</option>
+                                <?php
+                  $query = "select * from subjects";
+                  $qresult = mysqli_query($conn,$query);
+                  while ($qrows = mysqli_fetch_array($qresult)) {
+                    ?>
+                                <option value="<?php echo $qrows['sid'];?>"><?php echo $qrows['subject'];?>
+                                </option>
+                                <?php
+                  }
+                  ?>
+                            </select>
                             <div class="invalid-feedback">
                                 This field is required.
                             </div>
+
                         </div>
+
+
 
                         <div id="emailHelp" class="form-text">This will send an Email of their username and password to
                             the Student.</div>
@@ -550,6 +567,7 @@ if(isset($_GET['udelete'])){
                                             <th scope="col">Students</th>
                                             <th scope="col">Link</th>
                                             <th scope="col">Actions</th>
+                                            <th scope="col">View</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -566,24 +584,32 @@ if(isset($_GET['udelete'])){
                   <td>" . $row['class_name'] . "</td>
 
                   <td>" . $row['description'] . "</td>
-                  <td>10</td>
-                  <td>10</td>
-                  ";
-                  if ($row['testStatus']=='true') {
-                    echo "<td class='text-success'> <b> Active</b> </td>";
-                }
-if ($row['testStatus']=='false') {
-    echo "<td class='text-danger'><b> Closed</b> </td>";
-}
-                  echo "
                   
+                  
+                  ";
+
+                  $class_id = $row['class_id'];
+
+                  $zsql = "SELECT * FROM `subjects` WHERE `class_id` = '$class_id'";
+                  $zresult = mysqli_query($conn, $zsql);
+                  $total_subjects = mysqli_num_rows($zresult);
+                  echo "<td>".$total_subjects."</td>";
+                  
+                  $zsql = "SELECT * FROM `users` WHERE `class_id` = '$class_id'";
+                  $zresult = mysqli_query($conn, $zsql);
+                  $total_students = mysqli_num_rows($zresult);
+                  echo "<td>".$total_students."</td>";
+
+
+                  echo "
                   
                   <td><button class='mail btn btn-sm btn-success'  type='submit' data-bs-toggle='modal'
                   data-bs-target='#emodal'>Mail</button> </td>
 
                   <td><button class='ueedit btn btn-sm btn-primary' type='submit' data-bs-toggle='modal'
                   data-bs-target='#ueedit'>Edit</button>
-                  <button class='udelete btn btn-sm btn-danger' id='u".$row['sno']."' type='submit'>Delete</button></td>
+                  <button class='udelete btn btn-sm btn-danger' id='u".$class_id."' type='submit'>Delete</button></td>
+                  <td><button class='dview btn btn-sm btn-secondary' id='d".$class_id."' type='submit'>View</button></td>
               </tr>";
               }
 ?>
@@ -712,21 +738,37 @@ if ($row['testStatus']=='false') {
 
 
 
-            // for deleting Users 
+            // for deleting Class
             udeletes = document.getElementsByClassName("udelete");
             Array.from(udeletes).forEach((element) => {
                 element.addEventListener("click", (e) => {
                     sno = e.target.id.substr(1, );
                     console.log(sno);
-                    if (confirm("Are you sure you want to delete this user?")) {
-                        console.log("yess");
-                        window.location = `/Quiz/admin/addstudent.php?udelete=${sno}`;
+                    if (confirm("Are you sure you want to delete this class?")) {
+                        if (confirm("!!!Alert!!! \n \n You will loose all the students. Are you sure you want to delete this class?")) {
+                            console.log("yess");
+                            window.location = `/Quiz/admin/add_class.php?udelete=${sno}`;
+                        } else {
+                            console.log("no");
+                        }
                     } else {
                         console.log("no");
                     }
 
                 })
             })
+
+
+            // for View Class
+            dviews = document.getElementsByClassName("dview");
+            Array.from(dviews).forEach((element) => {
+                element.addEventListener("click", (e) => {
+                    sno = e.target.id.substr(1, );
+                    console.log(sno);
+                    window.location = `/Quiz/admin/class.php?view=${sno}`;
+                })
+            })
+
             </script>
 
             <script>

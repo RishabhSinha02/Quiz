@@ -226,18 +226,10 @@ $_SESSION['mailStatus']='Pending';
 if (isset($_POST['username'])) { 
     $username = $_POST['username'];
     $email = $_POST['email'];
-    $quiz_subject_id = $_POST['test'];
-    $teststatus = $_POST['teststatus'];
+    $class_id = $_POST['class'];
 
 
-    $isql = "SELECT * FROM `quiz_subjects` WHERE `quiz_subject_id` = '$quiz_subject_id'";
-    $iresult = mysqli_query($conn, $isql);
-    $irow = mysqli_fetch_assoc($iresult);
-    $test = $irow['quiz_subject'];
-
-
-
-    $sql = "INSERT INTO `users` (`username`, `email`, `password`, `test`, `quiz_subject_id`, `testStatus`, `role`) VALUES ('$username', '$email', '', '$test', '$quiz_subject_id', '$teststatus', 2)";
+    $sql = "INSERT INTO `users` (`sno`, `username`, `email`, `password`, `test`, `quiz_subject_id`, `class_id`, `testStatus`, `role`) VALUES (NULL, '$username', '$email', '', '', '0', '$class_id', '', '2');";
     $result = mysqli_query($conn, $sql);
 
     echo '
@@ -344,18 +336,19 @@ if(isset($_GET['udelete'])){
                                 </div>
                             </div>
                         </div>
-                        <div class="mb-3">
-                            <label for="test" class="form-label">Test</label>
 
-                            <select class="form-control" id="test" name="test" aria-describedby="test" required>
-                                <option value="">Select Subject</option>
+                        <div class="mb-3">
+                            <label for="class" class="form-label">Class</label>
+
+                            <select class="form-control" id="class" name="class" aria-describedby="class" required>
+                                <option value="">Select Class</option>
                                 <?php
-                  $query = "select * from quiz_subjects";
+                  $query = "select * from class";
                   $qresult = mysqli_query($conn,$query);
                   while ($qrows = mysqli_fetch_array($qresult)) {
                     ?>
-                                <option value="<?php echo $qrows['quiz_subject_id'];?>">
-                                    <?php echo $qrows['quiz_subject'];?></option>
+                                <option value="<?php echo $qrows['class_id'];?>">
+                                    <?php echo $qrows['class_name'];?></option>
                                 <?php
                   }
                   ?>
@@ -365,18 +358,12 @@ if(isset($_GET['udelete'])){
                             </div>
 
                         </div>
-                        <div class="mb-3">
-                            <label for="teststatus" class="form-label">Test Status</label>
-                            <select class="form-control" id="teststatus" name="teststatus" aria-describedby="teststatus"
-                                required>
-                                <option value="">Choose test status</option>
-                                <option value="true">Active</option>
-                                <option value="false">Closed</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                This field is required.
-                            </div>
-                        </div>
+
+
+
+
+                        
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-outline-success">
                                 <font size="4">ADD</font>
@@ -490,6 +477,9 @@ if(isset($_GET['udelete'])){
                             </div>
 
                         </div>
+
+                        
+
                         <div class="mb-3">
                             <label for="ueteststatus" class="form-label">Test Status</label>
                             <select class="form-control" id="ueteststatus" name="ueteststatus"
@@ -586,8 +576,8 @@ if(isset($_GET['udelete'])){
                                             </th>
                                             <th scope="col">Name</th>
                                             <th scope="col">Email</th>
-                                            <th scope="col">Test</th>
-                                            <th scope="col">Activity</th>
+                                            <th scope="col">Class</th>
+                                            <th scope="col">Test</th>           
                                             <th scope="col">Link</th>
                                             <th scope="col">Actions</th>
                                         </tr>
@@ -601,18 +591,19 @@ if(isset($_GET['udelete'])){
               $sno = 0;
               while($row = mysqli_fetch_assoc($result)){
                   $sno+=1;
+                  $class_id=$row['class_id'];
+                  $csql = "SELECT * FROM `class` WHERE `class_id` = '$class_id'";
+                  $cresult = mysqli_query($conn, $csql);
+                  $crow = mysqli_fetch_assoc($cresult);
+                  $class_name= $crow['class_name'];
                   echo "<tr>
                   <th scope='row'><center>$sno</center></th>
                   <td>" . $row['username'] . "</td>
                   <td>" . $row['email'] . "</td>
+                  <td>" . $class_name . "</td>
+
                   <td>" . $row['test'] . "</td>
                   ";
-                  if ($row['testStatus']=='true') {
-                    echo "<td class='text-success'> <b> Active</b> </td>";
-                }
-if ($row['testStatus']=='false') {
-    echo "<td class='text-danger'><b> Closed</b> </td>";
-}
                   echo "
                   
                   
