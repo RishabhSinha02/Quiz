@@ -229,7 +229,7 @@ if (isset($_POST['username'])) {
     $class_id = $_POST['class'];
 
 
-    $sql = "INSERT INTO `users` (`sno`, `username`, `email`, `password`, `test`, `quiz_subject_id`, `class_id`, `testStatus`, `role`) VALUES (NULL, '$username', '$email', '', '', '0', '$class_id', '', '2');";
+    $sql = "INSERT INTO `users` (`sno`, `username`, `email`, `password`, `test`, `quiz_subject_id`, `class_id`, `role`) VALUES (NULL, '$username', '$email', '', '', '0', '$class_id', '2');";
     $result = mysqli_query($conn, $sql);
 
     echo '
@@ -248,14 +248,18 @@ if (isset($_POST['ueusername'])) {
     $username = $_POST['ueusername'];
     $email = $_POST['ueemail'];
     $quiz_subject_id = $_POST['uetest'];
-    $teststatus = $_POST['ueteststatus'];
     
+    $ssql = "SELECT * FROM `users` WHERE `email` = '$email'";
+    $sresult = mysqli_query($conn, $ssql);
+    $srow = mysqli_fetch_assoc($sresult);
+    $sno = $srow['sno'];
+
     $isql = "SELECT * FROM `quiz_subjects` WHERE `quiz_subject_id` = '$quiz_subject_id'";
     $iresult = mysqli_query($conn, $isql);
     $irow = mysqli_fetch_assoc($iresult);
     $test = $irow['quiz_subject'];
 
-    $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email ', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id ', `testStatus` = '$teststatus' WHERE `users`.`email` = '$email ';";
+    $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email ', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id' WHERE `users`.`sno` = '$sno';";
     $result = mysqli_query($conn, $sql);
 
     echo '
@@ -264,6 +268,7 @@ if (isset($_POST['ueusername'])) {
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 ';
+// echo $username,"<br>", $email,"<br>", $quiz_subject_id,"<br>", $test,"<br>";
 
 
 }
@@ -384,7 +389,7 @@ if(isset($_GET['udelete'])){
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="emodalLabel">Create Password</h3>
+                    <h3 class="modal-title" id="emodalLabel">Sent Mail</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
@@ -401,14 +406,7 @@ if(isset($_GET['udelete'])){
                         </div>
                         <input type="hidden" class="form-control" id="eusername" name="eusername"
                             aria-describedby="eusername">
-                        <div class="mb-3">
-                            <label for="totalquestion" class="form-label">Password</label>
-                            <input type="text" class="form-control" id="epassword" name="epassword"
-                                aria-describedby="epassword" required>
-                            <div class="invalid-feedback">
-                                This field is required.
-                            </div>
-                        </div>
+        
 
                         <div id="emailHelp" class="form-text">This will send an Email of their username and password to
                             the Student.</div>
@@ -479,19 +477,6 @@ if(isset($_GET['udelete'])){
                         </div>
 
                         
-
-                        <div class="mb-3">
-                            <label for="ueteststatus" class="form-label">Test Status</label>
-                            <select class="form-control" id="ueteststatus" name="ueteststatus"
-                                aria-describedby="ueteststatus" required>
-                                <option value="">Choose test status</option>
-                                <option value="true">Active</option>
-                                <option value="false">Closed</option>
-                            </select>
-                            <div class="invalid-feedback">
-                                This field is required.
-                            </div>
-                        </div>
                         <div class="col-12">
                             <button type="submit" class="btn btn-outline-primary">
                                 <font size="4">Edit</font>
@@ -586,7 +571,7 @@ if(isset($_GET['udelete'])){
 
                                         <?php 
               include "Partial/dpconnect.php";
-              $sql = "SELECT * FROM `users` WHERE `role`=2";
+              $sql = "SELECT * FROM `users` WHERE `role`=2 ORDER BY `class_id` ASC";
               $result = mysqli_query($conn, $sql);
               $sno = 0;
               while($row = mysqli_fetch_assoc($result)){

@@ -141,11 +141,67 @@ if (isset($_GET['view'])) {
     $result = mysqli_query($conn, $sql);
     $row = mysqli_fetch_assoc($result);
     $class_name = $row['class_name'];
+    $_SESSION['class_id']=$class_id;
+    $_SESSION['class_name']=$class_name;
+}
+
+$class_id=$_SESSION['class_id'];
+
+
+$class_name=$_SESSION['class_name'];
+
+
+
+
+
+
+// Editing Users 
+if (isset($_POST['ueusername'])) { 
+    $username = $_POST['ueusername'];
+    $email = $_POST['ueemail'];
+    $quiz_subject_id = $_POST['uetest'];
+    
+    $isql = "SELECT * FROM `quiz_subjects` WHERE `quiz_subject_id` = '$quiz_subject_id'";
+    $iresult = mysqli_query($conn, $isql);
+    $irow = mysqli_fetch_assoc($iresult);
+    $test = $irow['quiz_subject'];
+
+    $vsql = "UPDATE `users` SET `username` = '$username', `email` = '$email ', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id ' WHERE `users`.`email` = '$email ';";
+    $result = mysqli_query($conn, $vsql);
+
+    echo '
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> User has been edited for : <b><strong><u>'.$username.'</strong></b></u>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+';
+
 
 }
-else {
-    header("location: /Quiz/index.php");
-}
+
+
+
+
+
+//  Deleteing the Users
+if(isset($_GET['udelete'])){
+    $sno = $_GET['udelete'];
+
+    $vsql = "SELECT * FROM `users` where `users`.`sno` = '$sno'";
+    $vresult = mysqli_query($conn, $vsql);
+    $vrow = mysqli_fetch_assoc($vresult);
+    $deleteuser = $vrow['username'];
+
+      $sql = "DELETE FROM `users` WHERE `users`.`sno` = '$sno'";
+      $result = mysqli_query($conn, $sql);
+      echo '
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Success!</strong> Student has been deleted for: <b><u><strong>'.$deleteuser.'</strong></b></u>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    ';
+    
+    }
 
 ?>
 
@@ -155,16 +211,109 @@ else {
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
         <form action="/Quiz/admin/add_class.php">
-                    <button class="btn btn-outline-warning" type="submit"><i data-feather="log-out"></i>
-                        <font size="2"><b> Back</b></font>
+                    <button class="btn btn-outline-warning" type="submit"><i data-feather="arrow-left"></i>
+                        
                     </button>
                 </form>
-                <div><b><font size="6" color="#16a085"><?php echo $class_name; ?> </font></b></div>
+                <div class=""><b><font size="6" color="white"> <?php echo "&nbsp &nbsp &nbsp ".$class_name." &nbsp &nbsp &nbsp"; ?> </font></b></div>
             <a class="navbar-brand" href="/Quiz/admin/add_class.php"><b><font color="#16a085">THE </font><font size="6" color="#5A6EA5"> QUIZ </font></b></a>
                 
                 
             </div>
     </nav>
+
+
+
+
+
+    <!--For editing user info -->
+    <div class="modal fade" id="ueedit" tabindex="-1" aria-labelledby="ueeditLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="ueditLabel">Edit</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Subject Modal form  -->
+                    <form action="/Quiz/admin/class.php" method="post" class="row g-3">
+                        <div class="mb-3">
+                            <label for="ueusername" class="form-label">Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend"><i data-feather="user"></i></span>
+                                <input type="ueusername" class="form-control" id="ueusername" name="ueusername"
+                                    aria-describedby="ueusername">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ueemail" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <font size="5">@</font>
+                                </span>
+                                <input type="email" class="form-control" id="ueemail" name="ueemail"
+                                    aria-describedby="ueemail">
+
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="uetest" class="form-label">Test</label>
+
+                            <select class="form-control" id="uetest" name="uetest" aria-describedby="uetest" required>
+                                <option value="">Select Subject</option>
+                                <?php
+                  $query = "select * from quiz_subjects";
+                  $qresult = mysqli_query($conn,$query);
+                  while ($qrows = mysqli_fetch_array($qresult)) {
+                    ?>
+                                <option value="<?php echo $qrows['quiz_subject_id'];?>">
+                                    <?php echo $qrows['quiz_subject'];?></option>
+                                <?php
+                  }
+                  ?>
+                            </select>
+                            <div class="invalid-feedback">
+                                This field is required.
+                            </div>
+
+                        </div>
+
+                        
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <font size="4">Edit</font>
+                            </button>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -180,7 +329,7 @@ else {
                             <br>
                     <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
                         <tr id="title">
-                            <th>
+                            <th class="bg-secondary">
                                 <h2>&nbsp Subjects</h2>
                             </th>
                         </tr>
@@ -248,10 +397,10 @@ else {
 
 
 <center>
-                            <br>
+                            <br><br>
                             <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
                                 <tbody>
-                                    <tr id="title">
+                                    <tr id="title" class="bg-secondary">
                                         <th width="85%">
                                             <h2>&nbsp Students</h2>
                                         </th>
@@ -375,35 +524,46 @@ else {
         </div>
 
         <script>
-        views = document.getElementsByClassName("view");
-        Array.from(views).forEach((element) => {
-            element.addEventListener("click", (e) => {
-                tr = e.target.parentNode.parentNode;
-                var email = tr.getElementsByTagName("td")[1].innerText;
-                console.log(email);
-                var qsid = tr.getElementsByTagName("input")[0].value;
-                console.log(qsid);
 
-                $.ajax({
-                    url: "load_result.php",
-                    method: "POST",
-                    data: {
-                        email: email,
-                        qsid: qsid,
-                    },
-                    success: function(data) {
-                        $("#user_detail").html(data);
-                        var myModal = new bootstrap.Modal(document.getElementById(
-                            "viewModal"), {
-                            keyboard: false
-                        })
-                        myModal.toggle()
+ // editing user info 
+ uedit = document.getElementsByClassName("ueedit");
+            Array.from(uedit).forEach((element) => {
+                element.addEventListener("click", (e) => {
+                    tr = e.target.parentNode.parentNode;
+                    ueusername = tr.getElementsByTagName("td")[0].innerText;
+                    ueemail = tr.getElementsByTagName("td")[1].innerText;
+                    uetest = tr.getElementsByTagName("td")[2].innerText;
+                    ueteststatus = tr.getElementsByTagName("td")[3].innerText;
 
-                    }
+                    document.getElementById("ueusername").value = ueusername;
+                    document.getElementById("ueemail").value = ueemail;
+                    document.getElementById("uetest").value = uetest;
+                    document.getElementById("ueteststatus").value = ueteststatus;
+
+
+
                 })
             })
-        })
-        </script>
+
+
+
+ // for deleting Users 
+ udeletes = document.getElementsByClassName("udelete");
+            Array.from(udeletes).forEach((element) => {
+                element.addEventListener("click", (e) => {
+                    sno = e.target.id.substr(1, );
+                    console.log(sno);
+                    if (confirm("Are you sure you want to delete this user?")) {
+                        console.log("yess");
+                        window.location = `/Quiz/admin/class.php?udelete=${sno}`;
+                    } else {
+                        console.log("no");
+                    }
+
+                })
+            })
+
+                </script>
 
 
 

@@ -200,17 +200,17 @@ tr:hover {
 
 //Alerts
 
-if ($_SESSION['mailStatus']=='Sent') {
+if ($_SESSION['ClassMailStatus']=='Sent') {
 ?>
 
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <strong>Success!</strong> Username and Password has been sent through Email.
+        <strong>Success!</strong> Username and Password has been sent to all students through Email.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 
 
     <?php
-$_SESSION['mailStatus']='Pending';
+$_SESSION['ClassMailStatus']='Pending';
     
 }
 
@@ -355,14 +355,14 @@ if(isset($_GET['udelete'])){
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="emodalLabel">Create Password</h3>
+                    <h3 class="modal-title" id="emodalLabel">Choose Quiz</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
 
                     <!-- Subject Modal form  -->
-                    <form action="email.php" method="post" class="row g-3 needs-validation" novalidate>
+                    <form action="class_mail.php" method="post" class="row g-3 needs-validation" novalidate>
                         <input type="hidden" class="form-control" id="ename" name="ename" aria-describedby="ename">
                         <input type="hidden" name="eEmail" id="eEmail">
                         <div class="mb-3">
@@ -375,17 +375,17 @@ if(isset($_GET['udelete'])){
 
 
                         <div class="mb-3">
-                            <label for="class_id" class="form-label">Subject</label>
+                            <label for="quiz_subject_id" class="form-label">Quiz</label>
 
-                            <select class="form-control" id="class_id" name="class_id" aria-describedby="class_id"
+                            <select class="form-control" id="quiz_subject_id" name="quiz_subject_id" aria-describedby="quiz_subject_id"
                                 required>
-                                <option value="">Select Class</option>
+                                <option value="">Select Quiz</option>
                                 <?php
-                  $query = "select * from subjects";
+                  $query = "select * from quiz_subjects";
                   $qresult = mysqli_query($conn,$query);
                   while ($qrows = mysqli_fetch_array($qresult)) {
                     ?>
-                                <option value="<?php echo $qrows['sid'];?>"><?php echo $qrows['subject'];?>
+                                <option value="<?php echo $qrows['quiz_subject_id'];?>"><?php echo $qrows['quiz_subject'];?>
                                 </option>
                                 <?php
                   }
@@ -400,7 +400,7 @@ if(isset($_GET['udelete'])){
 
 
                         <div id="emailHelp" class="form-text">This will send an Email of their username and password to
-                            the Student.</div>
+                            the all Student in Class.<br><b>This may take time based on the number of students.</b></div>
                         <br>
                         <div class="col-12">
                             <button type="submit" class="btn btn-primary">Sent</button>

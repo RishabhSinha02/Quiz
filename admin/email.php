@@ -7,18 +7,28 @@ include "../Partial/dpconnect.php"; // connection with database
 
 $name = $_POST['ename'];
 $username = $_POST['eusername'];
-$password = $_POST['epassword'];
+
+// for creating random password 
+$password_text = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%&";
+$password_text = str_shuffle($password_text);
+$password_text = substr($password_text,0,8);
+$password = $password_text;
 
 $text = "
 Hello ".$name.",<br><br>
+
 Following are the details for you to appear Quiz. <br><br>
+
 Username: ".$username." <br>
 Password: ".$password." <br>
 <br>
 Exam link: http://54.82.240.8/Quiz <br>
 <br>
 Please do not share this password with anyone.  <br> <br> <br>
+
+
 This is Auto Generated Email. Please do not reply to this mail. For any Query you can contact to your teacher. <br> <br>
+
 Thanks, <br>
 Quiz Creator
 ";
@@ -30,7 +40,7 @@ $mail->Port=587;
 $mail->SMTPSecure="tls";
 $mail->SMTPAuth=true;
 $mail->Username="fs19co057.rishabh.sinha@gmail.com";
-$mail->Password="Password.test@2002";
+$mail->Password="iniqxwxniffghxpz";
 $mail->SetFrom("fs19co057.rishabh.sinha@gmail.com");
 $mail->addAddress($username);
 $mail->IsHTML(true);
@@ -49,8 +59,6 @@ if ($mail->send()) {
     $sql = "UPDATE `users` SET `password` = '$password' WHERE `users`.`email` = '$username'";
     $result = mysqli_query($conn, $sql);
 
-    $ssql = "UPDATE `users` SET `testStatus` = 'true' WHERE `users`.`email` = '$username'";
-    $sresult = mysqli_query($conn, $ssql);
 
 }
 else{
