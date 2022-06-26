@@ -259,7 +259,7 @@ if (isset($_POST['ueusername'])) {
     $irow = mysqli_fetch_assoc($iresult);
     $test = $irow['quiz_subject'];
 
-    $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email ', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id' WHERE `users`.`sno` = '$sno';";
+    $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id' WHERE `users`.`sno` = '$sno';";
     $result = mysqli_query($conn, $sql);
 
     echo '

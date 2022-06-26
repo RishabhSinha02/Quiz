@@ -199,59 +199,80 @@ tr:hover {
                     <div class="card-body">
                         <center>
                             <br>
-                    <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
-                        <tr id="title">
-                            <th>
-                                <h2>&nbsp Result</h2>
-                            </th>
-                        </tr>
-                    </table>
-                    
+                   
+                        <center>
+                            <br>
+                            <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
+                                <tbody>
+                                    <tr id="title">
+                                        <th width="85%">
+                                            <h2>&nbsp Class Result</h2>
+                                        </th>
 
 
+                                        
+
+                                    </tr>
+                                </tbody>
+                            </table>
 
 
-                        <table id="mytable">
-                            <thead>
-                                <tr id="header">
-                                    <th scope="col" width="10%">
-                                        <center>SR. No.</center>
-                                    </th>
-                                    <th scope="col" width="20%">Student Name</th>
-                                    <th scope="col" width="40%">Email</th>
-                                    <th scope="col" width="20%">Subject</th>
-                                    <th scope="col" width="10%">Result</th>
-                                    <th scope="col" width="10%">View</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                            <font size="2">
 
-                                <?php 
-              $sql = "SELECT * FROM `results`";
+
+                                <table id="content-table" class="content-table">
+                                    <thead>
+                                        <tr id="header">
+                                            <th scope="col">
+                                                <center>SR. No.</center>
+                                            </th>
+                                            <th scope="col">Class</th>
+                                            <th scope="col">Total Students</th>
+                                            <th scope="col">Avg Result</th>
+                                            <th scope="col">Max Score</th>
+                                            <th scope="col">Min Score</th>
+                                            <th scope="col">View</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <?php 
+              include "Partial/dpconnect.php";
+              $sql = "SELECT * FROM `class`";
               $result = mysqli_query($conn, $sql);
               $sno = 0;
               while($row = mysqli_fetch_assoc($result)){
                   $sno+=1;
+                  $class_id = $row['class_id'];
                   echo "<tr>
                   <th scope='row'><center>$sno</center></th>
-                  <td>" . $row['student_name'] . "</td>
-                  <td>" . $row['email'] . "</td>
-                  <td>" . $row['subject'] . "</td>
-                  <td>" . 
-                  $row['subject_marks']/$row['total_question']*$row['correct_answer']."/"
+                  <td>" . $row['class_name'] . "</td>";
                   
-                  . $row['subject_marks']."</td>
-                  <td><button class='view btn btn-sm btn-primary'  type='submit'>View</button>
-                  <input type='hidden' id='quiz_subject_id_for_result' value='" . $row['quiz_subject_id'] ."'>
+                  $zsql = "SELECT * FROM `users` WHERE `class_id` = '$class_id'";
+                  $zresult = mysqli_query($conn, $zsql);
+                  $total_students = mysqli_num_rows($zresult);
+                  echo "<td>".$total_students." Students</td>";
+
+                  echo "<td>" . "Avarage" . " %</td>
+                  
+                  
+                  ";
+
+                  echo "<td>" . "Max Score" . " %</td>";
+                  
+                  
+                  
+                  
+                  echo "<td>" . "Min Score" . " %</td>
+
+                  <td><button class='viewResult btn btn-sm btn-secondary' id='d".$class_id."' type='submit'>More</button></td>
               </tr>";
               }
+?>
+                                    </tbody>
+                                </table>
 
-          ?>
-
-                            </tbody>
-                        </table>
-
-
+                        </center>
 
 
 
@@ -338,6 +359,20 @@ tr:hover {
                 })
             })
         })
+
+        // View Result in next Tab 
+        viewResults = document.getElementsByClassName("viewResult");
+            Array.from(viewResults).forEach((element) => {
+                element.addEventListener("click", (e) => {
+                    sno = e.target.id.substr(1, );
+                    console.log(sno);
+                    window.location = `/Quiz/admin/view_result.php?StudentResults=${sno}`;
+                })
+            })
+
+
+
+
         </script>
 
 

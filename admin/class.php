@@ -206,7 +206,7 @@ if (isset($_POST['ueusername'])) {
     $irow = mysqli_fetch_assoc($iresult);
     $test = $irow['quiz_subject'];
 
-    $vsql = "UPDATE `users` SET `username` = '$username', `email` = '$email ', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id ' WHERE `users`.`email` = '$email ';";
+    $vsql = "UPDATE `users` SET `username` = '$username', `email` = '$email', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id ' WHERE `users`.`email` = '$email ';";
     $result = mysqli_query($conn, $vsql);
 
     echo '
