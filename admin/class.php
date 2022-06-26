@@ -24,8 +24,8 @@ error_reporting(E_ERROR | E_PARSE);
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="/Quiz/css/home.css"> -->
     <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
-    crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <title>Control Panel</title>
 </head>
 
@@ -33,37 +33,35 @@ error_reporting(E_ERROR | E_PARSE);
 
 
 <style>
-
-
 body {
     background-color: rgb(209, 203, 255);
-  }
+}
 
-  .main {
+.main {
     padding: 15px;
     font-family: Arial, Helvetica, sans-serif;
-  }
+}
 
 
-  .sidebar a {
+.sidebar a {
     margin-left: 10px;
     display: block;
     color: white;
     padding-bottom: 10px;
     font-size: 30px;
     text-decoration: none;
-  }
+}
 
-  .card {
+.card {
     position: relative;
     display: flex;
     flex-direction: column;
     height: 200%;
-  }
+}
 
-  .content {
+.content {
     background-color: whitesmoke;
-  }
+}
 
 
 
@@ -151,7 +149,49 @@ $class_id=$_SESSION['class_id'];
 $class_name=$_SESSION['class_name'];
 
 
+?>
 
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <form action="/Quiz/admin/add_class.php">
+                <button class="btn btn-outline-warning" type="submit"><i data-feather="arrow-left"></i>
+                    <b>Back</b>
+                </button>
+            </form>
+            <div class=""><b>
+                    <font size="6" color="white"> <?php echo "&nbsp &nbsp &nbsp ".$class_name." &nbsp &nbsp &nbsp"; ?>
+                    </font>
+                </b></div>
+            <a class="navbar-brand" href="/Quiz/admin/add_class.php"><b>
+                    <font color="#16a085">THE </font>
+                    <font size="6" color="#5A6EA5"> QUIZ </font>
+                </b></a>
+
+
+        </div>
+    </nav>
+
+
+<?php
+
+// Adding Users 
+if (isset($_POST['username'])) { 
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+
+
+    $sql = "INSERT INTO `users` (`sno`, `username`, `email`, `password`, `test`, `quiz_subject_id`, `class_id`, `role`) VALUES (NULL, '$username', '$email', '', '', '0', '$class_id', '2');";
+    $result = mysqli_query($conn, $sql);
+
+    echo '
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Success!</strong> User has been added for : <b><strong><u>'.$username.'</strong></b></u>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+';
+
+}
 
 
 
@@ -207,20 +247,71 @@ if(isset($_GET['udelete'])){
 
 
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-        <form action="/Quiz/admin/add_class.php">
-                    <button class="btn btn-outline-warning" type="submit"><i data-feather="arrow-left"></i>
-                        
-                    </button>
-                </form>
-                <div class=""><b><font size="6" color="white"> <?php echo "&nbsp &nbsp &nbsp ".$class_name." &nbsp &nbsp &nbsp"; ?> </font></b></div>
-            <a class="navbar-brand" href="/Quiz/admin/add_class.php"><b><font color="#16a085">THE </font><font size="6" color="#5A6EA5"> QUIZ </font></b></a>
-                
-                
+ 
+
+
+    <!--Modal for adding Students -->
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="modalLabel">Add Student</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Modal form  -->
+
+                    <form action="/Quiz/admin/class.php" method="post" class="row g-3 needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="showclass" class="form-label">Class</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend"><i data-feather="users"></i></span>
+                                <input type="showclass" class="form-control" id="showclass" name="showclass"
+                                    aria-describedby="showclass" value="<?php echo $class_name; ?>" disabled>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Name</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend"><i data-feather="user"></i></span>
+                                <input type="username" class="form-control" id="username" name="username"
+                                    aria-describedby="username" required>
+                                <div class="invalid-feedback">
+                                    This field is required.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text" id="inputGroupPrepend">
+                                    <font size="5">@</font>
+                                </span>
+                                <input type="email" class="form-control" id="email" name="email"
+                                    aria-describedby="email" required>
+                                <div class="invalid-feedback">
+                                    This field is required.
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-outline-success">
+                                <font size="4">ADD</font>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
-    </nav>
+        </div>
+    </div>
 
 
 
@@ -280,7 +371,7 @@ if(isset($_GET['udelete'])){
 
                         </div>
 
-                        
+
                         <div class="col-12">
                             <button type="submit" class="btn btn-outline-primary">
                                 <font size="4">Edit</font>
@@ -327,34 +418,34 @@ if(isset($_GET['udelete'])){
                     <div class="card-body">
                         <center>
                             <br>
-                    <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
-                        <tr id="title">
-                            <th class="bg-secondary">
-                                <h2>&nbsp Subjects</h2>
-                            </th>
-                        </tr>
-                    </table>
-                    
-
-
-
-
-                        <table id="mytable">
-                            <thead>
-                                <tr id="header">
-                                    <th scope="col" width="10%">
-                                        <center>SR. No.</center>
+                            <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
+                                <tr id="title">
+                                    <th class="bg-secondary">
+                                        <h2>&nbsp Subjects</h2>
                                     </th>
-                                    <th scope="col" width="20%">Subject Name</th>
-                                    <th scope="col" width="40%">Description</th>
-                                    <th scope="col" width="20%">Total Questions</th>
-                                    <th scope="col" width="10%">Total Quiz</th>
-                                    <th scope="col" width="10%">Actions</th>
                                 </tr>
-                            </thead>
-                            <tbody>
+                            </table>
 
-                                <?php 
+
+
+
+
+                            <table id="mytable">
+                                <thead>
+                                    <tr id="header">
+                                        <th scope="col" width="10%">
+                                            <center>SR. No.</center>
+                                        </th>
+                                        <th scope="col" width="20%">Subject Name</th>
+                                        <th scope="col" width="40%">Description</th>
+                                        <th scope="col" width="20%">Total Questions</th>
+                                        <th scope="col" width="10%">Total Quiz</th>
+                                        <th scope="col" width="10%">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <?php 
               $zsql = "SELECT * FROM `subjects` WHERE `class_id` = '$class_id'";
               $zresult = mysqli_query($conn, $zsql);
               $sno = 0;
@@ -389,55 +480,56 @@ if(isset($_GET['udelete'])){
 
           ?>
 
-                            </tbody>
-                        </table>
-
-
-<!-- Student Table  -->
-
-
-<center>
-                            <br><br>
-                            <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
-                                <tbody>
-                                    <tr id="title" class="bg-secondary">
-                                        <th width="85%">
-                                            <h2>&nbsp Students</h2>
-                                        </th>
-
-
-                                        <th width="15%">
-                                            <button class="add btn btn-success" id="" type="submit"
-                                                data-bs-toggle="modal" data-bs-target="#modal">
-                                                <font size="4"><i data-feather="user-plus"></i>
-                                                <b> ADD</b></font>
-                                            </button>
-                                        </th>
-
-                                    </tr>
                                 </tbody>
                             </table>
 
 
-                            <font size="2">
+                            <!-- Student Table  -->
 
 
-                                <table id="content-table" class="content-table">
-                                    <thead>
-                                        <tr id="header">
-                                            <th scope="col">
-                                                <center>SR. No.</center>
-                                            </th>
-                                            <th scope="col">Name</th>
-                                            <th scope="col">Email</th>
-                                            <th scope="col">Test</th>           
-                                            <th scope="col">Link</th>
-                                            <th scope="col">Actions</th>
-                                        </tr>
-                                    </thead>
+                            <center>
+                                <br><br>
+                                <table style="border-radius: 20px 20px 0 0; overflow: hidden; ">
                                     <tbody>
+                                        <tr id="title" class="bg-secondary">
+                                            <th width="85%">
+                                                <h2>&nbsp Students</h2>
+                                            </th>
 
-                                        <?php 
+
+                                            <th width="15%">
+                                                <button class="add btn btn-success" id="" type="submit"
+                                                    data-bs-toggle="modal" data-bs-target="#modal">
+                                                    <font size="4"><i data-feather="user-plus"></i>
+                                                        <b> ADD</b>
+                                                    </font>
+                                                </button>
+                                            </th>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                                <font size="2">
+
+
+                                    <table id="content-table" class="content-table">
+                                        <thead>
+                                            <tr id="header">
+                                                <th scope="col">
+                                                    <center>SR. No.</center>
+                                                </th>
+                                                <th scope="col">Name</th>
+                                                <th scope="col">Email</th>
+                                                <th scope="col">Test</th>
+                                                <th scope="col">Link</th>
+                                                <th scope="col">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <?php 
               include "Partial/dpconnect.php";
               $sql = "SELECT * FROM `users` WHERE `class_id` = '$class_id' AND `role` = 2 ORDER BY `class_id` ASC";
               $result = mysqli_query($conn, $sql);
@@ -463,10 +555,10 @@ if(isset($_GET['udelete'])){
               </tr>";
               }
 ?>
-                                    </tbody>
-                                </table>
+                                        </tbody>
+                                    </table>
 
-                        </center>
+                            </center>
 
 
 
@@ -500,7 +592,7 @@ if(isset($_GET['udelete'])){
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
         </script>
 
-       
+
 
         <!-- Option 2: Separate Popper and Bootstrap JS -->
         <!--
@@ -524,53 +616,51 @@ if(isset($_GET['udelete'])){
         </div>
 
         <script>
+        // editing user info 
+        uedit = document.getElementsByClassName("ueedit");
+        Array.from(uedit).forEach((element) => {
+            element.addEventListener("click", (e) => {
+                tr = e.target.parentNode.parentNode;
+                ueusername = tr.getElementsByTagName("td")[0].innerText;
+                ueemail = tr.getElementsByTagName("td")[1].innerText;
+                uetest = tr.getElementsByTagName("td")[2].innerText;
+                ueteststatus = tr.getElementsByTagName("td")[3].innerText;
 
- // editing user info 
- uedit = document.getElementsByClassName("ueedit");
-            Array.from(uedit).forEach((element) => {
-                element.addEventListener("click", (e) => {
-                    tr = e.target.parentNode.parentNode;
-                    ueusername = tr.getElementsByTagName("td")[0].innerText;
-                    ueemail = tr.getElementsByTagName("td")[1].innerText;
-                    uetest = tr.getElementsByTagName("td")[2].innerText;
-                    ueteststatus = tr.getElementsByTagName("td")[3].innerText;
-
-                    document.getElementById("ueusername").value = ueusername;
-                    document.getElementById("ueemail").value = ueemail;
-                    document.getElementById("uetest").value = uetest;
-                    document.getElementById("ueteststatus").value = ueteststatus;
-
+                document.getElementById("ueusername").value = ueusername;
+                document.getElementById("ueemail").value = ueemail;
+                document.getElementById("uetest").value = uetest;
+                document.getElementById("ueteststatus").value = ueteststatus;
 
 
-                })
+
             })
+        })
 
 
 
- // for deleting Users 
- udeletes = document.getElementsByClassName("udelete");
-            Array.from(udeletes).forEach((element) => {
-                element.addEventListener("click", (e) => {
-                    sno = e.target.id.substr(1, );
-                    console.log(sno);
-                    if (confirm("Are you sure you want to delete this user?")) {
-                        console.log("yess");
-                        window.location = `/Quiz/admin/class.php?udelete=${sno}`;
-                    } else {
-                        console.log("no");
-                    }
+        // for deleting Users 
+        udeletes = document.getElementsByClassName("udelete");
+        Array.from(udeletes).forEach((element) => {
+            element.addEventListener("click", (e) => {
+                sno = e.target.id.substr(1, );
+                console.log(sno);
+                if (confirm("Are you sure you want to delete this user?")) {
+                    console.log("yess");
+                    window.location = `/Quiz/admin/class.php?udelete=${sno}`;
+                } else {
+                    console.log("no");
+                }
 
-                })
             })
+        })
+        </script>
 
-                </script>
 
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
-      </script>
- <script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+        </script>
+        <script>
         feather.replace()
         </script>
 

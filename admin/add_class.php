@@ -247,23 +247,21 @@ if (isset($_POST['classname'])) {
 
 
 // Editing Users 
-if (isset($_POST['ueusername'])) { 
-    $username = $_POST['ueusername'];
-    $email = $_POST['ueemail'];
-    $quiz_subject_id = $_POST['uetest'];
-    $teststatus = $_POST['ueteststatus'];
+if (isset($_POST['ecclassname'])) { 
+    $ecclassname = $_POST['ecclassname'];
+    $edescription = $_POST['edescription'];
     
-    $isql = "SELECT * FROM `quiz_subjects` WHERE `quiz_subject_id` = '$quiz_subject_id'";
-    $iresult = mysqli_query($conn, $isql);
+    $isql = "SELECT * FROM `class` WHERE `class_name` LIKE '$ecclassname'";
+    $iresult = mysqli_query($conn, $isql); 
     $irow = mysqli_fetch_assoc($iresult);
-    $test = $irow['quiz_subject'];
+    $eclass_id = $irow['class_id'];
 
-    $sql = "UPDATE `users` SET `username` = '$username', `email` = '$email ', `test` = '$test ', `quiz_subject_id` = '$quiz_subject_id ', `testStatus` = '$teststatus' WHERE `users`.`email` = '$email ';";
-    $result = mysqli_query($conn, $sql);
+    $isql = "UPDATE `class` SET `class_name` = '$ecclassname', `description` = '$edescription' WHERE `class`.`class_id` = '$eclass_id'";
+    $iresult = mysqli_query($conn, $isql);
 
     echo '
 <div class="alert alert-success alert-dismissible fade show" role="alert">
-    <strong>Success!</strong> User has been edited for : <b><strong><u>'.$username.'</strong></b></u>
+    <strong>Success!</strong> User has been edited for : <b><strong><u>'.$ecclassname.'</strong></b></u>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>
 ';
@@ -413,73 +411,41 @@ if(isset($_GET['udelete'])){
     </div>
 
 
-    <!--For editing user info -->
-    <div class="modal fade" id="ueedit" tabindex="-1" aria-labelledby="ueeditLabel" aria-hidden="true">
+    <!--For editing Class info -->
+    <div class="modal fade" id="cedit" tabindex="-1" aria-labelledby="ceditLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="ueditLabel">Edit</h3>
+                    <h3 class="modal-title" id="ceditLabel">Edit</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
 
                     <!-- Subject Modal form  -->
-                    <form action="/Quiz/admin/addstudent.php" method="post" class="row g-3">
+                    <form action="/Quiz/admin/add_class.php" method="post" class="row g-3 needs-validation" novalidate>
                         <div class="mb-3">
-                            <label for="ueusername" class="form-label">Name</label>
+                            <label for="ecclassname" class="form-label">Class Name</label>
                             <div class="input-group">
-                                <span class="input-group-text" id="inputGroupPrepend"><i data-feather="user"></i></span>
-                                <input type="ueusername" class="form-control" id="ueusername" name="ueusername"
-                                    aria-describedby="ueusername">
+                                <span class="input-group-text" id="inputGroupPrepend"><i
+                                        data-feather="users"></i></span>
+                                <input type="eclassname" class="form-control" id="ecclassname" name="ecclassname"
+                                    aria-describedby="ecclassname" required>
+                                <div class="invalid-feedback">
+                                    This field is required.
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="ueemail" class="form-label">Email</label>
-                            <div class="input-group">
-                                <span class="input-group-text" id="inputGroupPrepend">
-                                    <font size="5">@</font>
-                                </span>
-                                <input type="email" class="form-control" id="ueemail" name="ueemail"
-                                    aria-describedby="ueemail">
-
-                            </div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="uetest" class="form-label">Test</label>
-
-                            <select class="form-control" id="uetest" name="uetest" aria-describedby="uetest" required>
-                                <option value="">Select Subject</option>
-                                <?php
-                  $query = "select * from quiz_subjects";
-                  $qresult = mysqli_query($conn,$query);
-                  while ($qrows = mysqli_fetch_array($qresult)) {
-                    ?>
-                                <option value="<?php echo $qrows['quiz_subject_id'];?>">
-                                    <?php echo $qrows['quiz_subject'];?></option>
-                                <?php
-                  }
-                  ?>
-                            </select>
-                            <div class="invalid-feedback">
-                                This field is required.
-                            </div>
-
-                        </div>
-                        <div class="mb-3">
-                            <label for="ueteststatus" class="form-label">Test Status</label>
-                            <select class="form-control" id="ueteststatus" name="ueteststatus"
-                                aria-describedby="ueteststatus" required>
-                                <option value="">Choose test status</option>
-                                <option value="true">Active</option>
-                                <option value="false">Closed</option>
-                            </select>
+                            <label for="edescription" class="form-label">Description</label>
+                            <textarea type="textarea" class="form-control" id="edescription" name="edescription"
+                                aria-describedby="edescription" required> </textarea>
                             <div class="invalid-feedback">
                                 This field is required.
                             </div>
                         </div>
                         <div class="col-12">
-                            <button type="submit" class="btn btn-outline-primary">
+                            <button type="submit" class="btn btn-outline-success">
                                 <font size="4">Edit</font>
                             </button>
                         </div>
@@ -599,17 +565,15 @@ if(isset($_GET['udelete'])){
                   $zresult = mysqli_query($conn, $zsql);
                   $total_students = mysqli_num_rows($zresult);
                   echo "<td>".$total_students."</td>";
-
-
                   echo "
                   
                   <td><button class='mail btn btn-sm btn-success'  type='submit' data-bs-toggle='modal'
                   data-bs-target='#emodal'>Mail</button> </td>
 
-                  <td><button class='ueedit btn btn-sm btn-primary' type='submit' data-bs-toggle='modal'
-                  data-bs-target='#ueedit'>Edit</button>
+                  <td><button class='cedit btn btn-sm btn-primary' type='submit' data-bs-toggle='modal'
+                  data-bs-target='#cedit'>Edit</button>
                   <button class='udelete btn btn-sm btn-danger' id='u".$class_id."' type='submit'>Delete</button></td>
-                  <td><button class='dview btn btn-sm btn-secondary' id='d".$class_id."' type='submit'>View</button></td>
+                  <td><button class='dview btn btn-sm btn-outline-secondary' id='d".$class_id."' type='submit'>View</button></td>
               </tr>";
               }
 ?>
@@ -695,24 +659,17 @@ if(isset($_GET['udelete'])){
 
 
 
-            // editing subject info 
-            sedit = document.getElementsByClassName("sedit");
-            Array.from(sedit).forEach((element) => {
+            // editing class info 
+            cedits = document.getElementsByClassName("cedit");
+            Array.from(cedits).forEach((element) => {
                 element.addEventListener("click", (e) => {
                     tr = e.target.parentNode.parentNode;
-                    ssubject = tr.getElementsByTagName("td")[0].innerText;
-                    stotalquestion = tr.getElementsByTagName("td")[1].innerText;
-                    stotalmark = tr.getElementsByTagName("td")[2].innerText;
-                    sexam_time = tr.getElementsByTagName("td")[3].innerText;
-                    var etime = sexam_time.split(" ");
-                    exam_time = etime[0];
+                    ecclassname = tr.getElementsByTagName("td")[0].innerText;
+                    edescription = tr.getElementsByTagName("td")[1].innerText;
 
-
-                    document.getElementById("ssubject").value = ssubject;
-                    document.getElementById("stotalquestion").value = stotalquestion;
-                    document.getElementById("stotalmark").value = stotalmark;
-                    document.getElementById("sexam_time").value = exam_time;
-
+                    document.getElementById("ecclassname").value = ecclassname;
+                    document.getElementById("edescription").value = edescription;
+            
                     // console.log(exam_time);
 
 

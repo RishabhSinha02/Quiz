@@ -364,7 +364,7 @@ if(isset($_GET['delete'])){
                                 <tbody>
 
                                     <?php 
-              $sql = "SELECT * FROM `subjects`";
+              $sql = "SELECT * FROM `subjects` ORDER BY `class_id` ASC";
               $result = mysqli_query($conn, $sql);
               $sno = 0;
               while($row = mysqli_fetch_assoc($result)){
