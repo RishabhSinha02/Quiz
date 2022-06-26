@@ -183,8 +183,9 @@ Marks Obtained </u> = ".($totalmark/$totalquestion)* $correct." / ".$totalmark."
 <hr>
 
 ";
+$class_id=$_SESSION['class_id'];
 if ($_SESSION['testStatus']!=false) {
-    $rsql = "INSERT INTO `results` (`rid`,`student_name`, `email`, `sid`, `quiz_subject_id`, `subject`, `total_question`, `correct_answer`, `wrong_answer`, `subject_marks`) VALUES (NULL, '$username', '$email', '$sid', '$quiz_subject_id', '$subject', '$totalquestion', '$correct', '$wrong', '$totalmark');";
+    $rsql = "INSERT INTO `results` (`rid`,`student_name`, `email`, `class_id`, `sid`, `quiz_subject_id`, `subject`, `total_question`, `correct_answer`, `wrong_answer`, `subject_marks`) VALUES (NULL, '$username', '$email', '$class_id', '$sid', '$quiz_subject_id', '$subject', '$totalquestion', '$correct', '$wrong', '$totalmark');";
     $rresult = mysqli_query($conn, $rsql);
 }
 

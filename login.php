@@ -14,10 +14,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($conn, $sql); 
     $rows = mysqli_fetch_assoc($result);  // Fetching data from Database 
 
-    $username = $rows["username"];         //storing required infos
+    $username = $rows["username"]; 
+    $class_id = $rows["class_id"];         //storing required infos
     $subject = $rows["test"];
     $quiz_subject_id = $rows["quiz_subject_id"];
-    $testStatus = $rows["testStatus"];
     $role= $rows["role"];
 
 
@@ -38,8 +38,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['loggedin']=true;
         $_SESSION['username']=$username;
         $_SESSION['email']=$email;
+        $_SESSION['class_id']=$class_id;
         $_SESSION['subject']=$subject;
         $_SESSION['testStatus']=$testStatus;
+
         $_SESSION['password']=$password;
         $_SESSION['role']=$role;
         $_SESSION['sid']=$sid;

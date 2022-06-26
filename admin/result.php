@@ -248,10 +248,22 @@ tr:hover {
                   <th scope='row'><center>$sno</center></th>
                   <td>" . $row['class_name'] . "</td>";
                   
-                  $zsql = "SELECT * FROM `users` WHERE `class_id` = '$class_id'";
+                  $zsql = "SELECT * FROM `results`";
                   $zresult = mysqli_query($conn, $zsql);
-                  $total_students = mysqli_num_rows($zresult);
-                  echo "<td>".$total_students." Students</td>";
+                  $total_students_result = 0;
+                  while($zrows = mysqli_fetch_assoc($zresult)){
+                        $result_email=$zrows['email'];
+                        $chsql = "SELECT * FROM `users` WHERE `class_id` LIKE '$class_id'";
+                        $chresult = mysqli_query($conn, $chsql);
+                        while($chrow = mysqli_fetch_assoc($chresult)){
+                            $check_email=$chrow['email'];
+                            if ($check_email==$result_email) {
+                                $total_students_result = $total_students_result + 1;
+                            }
+                        }
+                        
+                  }
+                  echo "<td>".$total_students_result." Students</td>";
 
                   echo "<td>" . "Avarage" . " %</td>
                   
