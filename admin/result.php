@@ -227,10 +227,10 @@ tr:hover {
                                                 <center>SR. No.</center>
                                             </th>
                                             <th scope="col">Class</th>
-                                            <th scope="col">Total Students</th>
+                                            <th scope="col">Total Results</th>
                                             <th scope="col">Avg Result</th>
-                                            <th scope="col">Max Score</th>
-                                            <th scope="col">Min Score</th>
+                                            <!-- <th scope="col">Max Score</th> -->
+                                            <!-- <th scope="col">Min Score</th> -->
                                             <th scope="col">View</th>
                                         </tr>
                                     </thead>
@@ -248,36 +248,35 @@ tr:hover {
                   <th scope='row'><center>$sno</center></th>
                   <td>" . $row['class_name'] . "</td>";
                   
-                  $zsql = "SELECT * FROM `results`";
+                  $zsql = "SELECT * FROM `results` WHERE `class_id` = '$class_id'";
                   $zresult = mysqli_query($conn, $zsql);
-                  $total_students_result = 0;
-                  while($zrows = mysqli_fetch_assoc($zresult)){
-                        $result_email=$zrows['email'];
-                        $chsql = "SELECT * FROM `users` WHERE `class_id` LIKE '$class_id'";
-                        $chresult = mysqli_query($conn, $chsql);
-                        while($chrow = mysqli_fetch_assoc($chresult)){
-                            $check_email=$chrow['email'];
-                            if ($check_email==$result_email) {
-                                $total_students_result = $total_students_result + 1;
-                            }
-                        }
-                        
-                  }
-                  echo "<td>".$total_students_result." Students</td>";
+                  $total_students_result = mysqli_num_rows($zresult);
+                  echo "<td>".$total_students_result." Results</td>";
 
-                  echo "<td>" . "Avarage" . " %</td>
+
+                  $tmark=0;
+                  $gmark=0;
+                    while ($zrow = mysqli_fetch_assoc($zresult)) {
+                        $av_total_question = $zrow['total_question'];
+                        $av_correct_answer = $zrow['correct_answer'];
+                        $tmark = $tmark + $av_total_question;
+                 $gmark = $gmark + $av_correct_answer;
+                    }
+                    $value = $gmark * 100 / $tmark;
+                    $avg_result=round($value, 2);
+                  echo "<td>" .$avg_result . " / 100</td>
                   
                   
                   ";
 
-                  echo "<td>" . "Max Score" . " %</td>";
+                //   echo "<td>" . "Max Score" . " %</td>";
                   
                   
                   
                   
-                  echo "<td>" . "Min Score" . " %</td>
+                //   echo "<td>" . "Min Score" . " %</td>";
 
-                  <td><button class='viewResult btn btn-sm btn-secondary' id='d".$class_id."' type='submit'>More</button></td>
+                  echo"<td><button class='viewResult btn btn-sm btn-secondary' id='d".$class_id."' type='submit'>More</button></td>
               </tr>";
               }
 ?>

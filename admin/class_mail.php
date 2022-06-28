@@ -9,7 +9,7 @@ echo "<h1>Something went wrong ...</h1>";
 
 
 $class_name = $_POST['eclassname'];
-$quiz_subject_id = $_POST['quiz_subject_id'];
+$quiz_subject_id = $_POST['mail_quiz_subject_id'];
 
 $csql = "SELECT * FROM `class` WHERE `class_name` LIKE '$class_name'";
 $cresult = mysqli_query($conn, $csql);
@@ -71,7 +71,12 @@ if ($mail->send()) {
     $xsql = "UPDATE `users` SET `password` = '$password' WHERE `users`.`email` = '$username'";
     $xresult = mysqli_query($conn, $xsql);
 
-    $ssql = "UPDATE `users` SET `quiz_subject_id` = '$quiz_subject_id' WHERE `users`.`email` = '$username';";
+    $qsql = "SELECT * FROM `quiz_subjects` WHERE `quiz_subject_id` = '$quiz_subject_id'";
+    $qresult = mysqli_query($conn, $qsql);
+    $qrow = mysqli_fetch_assoc($qresult);
+    $quiz_subject = $qrow['quiz_subject'];
+
+    $ssql = "UPDATE `users` SET `test` = '$quiz_subject', `quiz_subject_id` = '$quiz_subject_id' WHERE `users`.`email` = '$username'";
     $sresult = mysqli_query($conn, $ssql);
 
 }

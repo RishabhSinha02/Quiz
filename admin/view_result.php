@@ -221,17 +221,11 @@ $class_name=$_SESSION['class_name'];
                             <tbody>
 
                                 <?php 
-              $sql = "SELECT * FROM `results`";
+              $sql = "SELECT * FROM `results` WHERE `class_id` = '$class_id'";
               $result = mysqli_query($conn, $sql);
               $sno = 0;
               while($row = mysqli_fetch_assoc($result)){
-                  $email=$row['email'];
-                  $chsql = "SELECT * FROM `users` WHERE `email` LIKE '$email' ORDER BY `class_id` ASC";
-                  $chresult = mysqli_query($conn, $chsql);
-                  $chrow = mysqli_fetch_assoc($chresult);
-                  $check_class_id=$chrow['class_id'];
-                  if ($check_class_id == $class_id) {
-                    $sno+=1;
+                  $sno+=1;
                   echo "<tr>
                   <th scope='row'><center>$sno</center></th>
                   <td>" . $row['student_name'] . "</td>
@@ -244,8 +238,6 @@ $class_name=$_SESSION['class_name'];
                   <td><button class='view btn btn-sm btn-primary'  type='submit'>View</button>
                   <input type='hidden' id='quiz_subject_id_for_result' value='" . $row['quiz_subject_id'] ."'>
               </tr>";
-                  }  
-                  
               }
 
           ?>

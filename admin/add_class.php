@@ -225,7 +225,7 @@ $_SESSION['ClassMailStatus']='Pending';
     <?php
 
 
-// Adding Users 
+// Adding Class 
 if (isset($_POST['classname'])) { 
     $class_name = $_POST['classname'];
     $description = $_POST['description'];
@@ -246,7 +246,7 @@ if (isset($_POST['classname'])) {
 
 
 
-// Editing Users 
+// Editing Class 
 if (isset($_POST['ecclassname'])) { 
     $ecclassname = $_POST['ecclassname'];
     $edescription = $_POST['edescription'];
@@ -375,7 +375,7 @@ if(isset($_GET['udelete'])){
                         <div class="mb-3">
                             <label for="quiz_subject_id" class="form-label">Quiz</label>
 
-                            <select class="form-control" id="quiz_subject_id" name="quiz_subject_id" aria-describedby="quiz_subject_id"
+                            <select class="form-control" id="mail_quiz_subject_id" name="mail_quiz_subject_id" aria-describedby="mail_quiz_subject_id"
                                 required>
                                 <option value="">Select Quiz</option>
                                 <?php

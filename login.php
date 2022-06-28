@@ -14,10 +14,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = mysqli_query($conn, $sql); 
     $rows = mysqli_fetch_assoc($result);  // Fetching data from Database 
 
-    $username = $rows["username"]; 
-    $class_id = $rows["class_id"];         //storing required infos
+    $username = $rows["username"];         //storing required infos
     $subject = $rows["test"];
+    $class_id = $rows["class_id"];
     $quiz_subject_id = $rows["quiz_subject_id"];
+    $testStatus = $rows["testStatus"];
     $role= $rows["role"];
 
 
@@ -38,10 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['loggedin']=true;
         $_SESSION['username']=$username;
         $_SESSION['email']=$email;
-        $_SESSION['class_id']=$class_id;
         $_SESSION['subject']=$subject;
         $_SESSION['testStatus']=$testStatus;
-
         $_SESSION['password']=$password;
         $_SESSION['role']=$role;
         $_SESSION['sid']=$sid;
@@ -49,6 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['totalmark']=$totalmark;
         $_SESSION['exam_time']=$exam_time;
         $_SESSION['quiz_subject_id']=$quiz_subject_id;
+        $_SESSION['class_id']=$class_id;
 
         header("location: index.php");   // redirect to home page after successfull login.
     }

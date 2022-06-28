@@ -2,6 +2,7 @@
 session_start(); //access to user informations through session variables
 include "Partial/dpconnect.php"; // connection with database
 error_reporting(E_ERROR | E_PARSE);
+$_SESSION['testStatus']=true;
 $username=$_SESSION['username']; 
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!=true) {  // for not login
     header("location: login.php");
@@ -151,15 +152,17 @@ $wrong = 0;
                                     $qid = $row['qid'];
                                     $question = $row['question'];
                                     if ($_SESSION['testStatus']!=false) {
-
-                                        $vsql = "INSERT INTO `view` (`vno`, `email`, `sid`, `quiz_subject_id`, `subject`, `qid`, `question`, `answer`, `selected_option`) VALUES (NULL, '$email', '$sid', '$quiz_subject_id', '$subject', '$qid', '$question', '$correct_answer', '$selected_answer');";
+                                        echo $correct_answer;
+                                        $vsql = "INSERT INTO `view` (`vno`, `email`, `sid`, `quiz_subject_id`, `subject`, `qid`, `question`, `answer`, `selected_option`) VALUES (NULL, '$email', '$sid', '$quiz_subject_id', '$subject', '$qid', '$question', '$correct_answer', '$selected_answer')";
                                         $vresult = mysqli_query($conn, $vsql);
                                     }
                                     
                                     if ($selected_answer==$correct_answer) {
                                         $correct++;
                                     }
+                                    
                                     $i++;
+                                    
                                 }
                                 ?>
 
@@ -188,7 +191,7 @@ if ($_SESSION['testStatus']!=false) {
     $rsql = "INSERT INTO `results` (`rid`,`student_name`, `email`, `class_id`, `sid`, `quiz_subject_id`, `subject`, `total_question`, `correct_answer`, `wrong_answer`, `subject_marks`) VALUES (NULL, '$username', '$email', '$class_id', '$sid', '$quiz_subject_id', '$subject', '$totalquestion', '$correct', '$wrong', '$totalmark');";
     $rresult = mysqli_query($conn, $rsql);
 }
-
+$_SESSION['testStatus']=false;
 ?>
 
                                 <button class="btn btn-outline-success" type='submit' data-bs-toggle='modal'
