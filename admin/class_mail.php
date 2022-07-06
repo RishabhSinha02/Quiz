@@ -54,9 +54,9 @@ while($row = mysqli_fetch_assoc($result)){
     $mail->Port=587;
     $mail->SMTPSecure="tls";
     $mail->SMTPAuth=true;
-    $mail->Username="fs19co057.rishabh.sinha@gmail.com";
-    $mail->Password="iniqxwxniffghxpz";
-    $mail->SetFrom("fs19co057.rishabh.sinha@gmail.com");
+    $mail->Username="rishabhsinha.projects@gmail.com";
+    $mail->Password="ywxwhkvwgtzswmyg";
+    $mail->SetFrom("rishabhsinha.projects@gmail.com");
     $mail->addAddress($username);
     $mail->IsHTML(true);
     $mail->Subject="Ready For Quiz";

@@ -4,7 +4,7 @@
 session_start(); //access to user informations through session variables
 include "../Partial/dpconnect.php"; // connection with database
 
-
+echo "Something Went Wrong";
 $name = $_POST['ename'];
 $username = $_POST['eusername'];
 
@@ -39,9 +39,9 @@ $mail->Host="smtp.gmail.com";
 $mail->Port=587;
 $mail->SMTPSecure="tls";
 $mail->SMTPAuth=true;
-$mail->Username="fs19co057.rishabh.sinha@gmail.com";
-$mail->Password="iniqxwxniffghxpz";
-$mail->SetFrom("fs19co057.rishabh.sinha@gmail.com");
+$mail->Username="rishabhsinha.projects@gmail.com";
+$mail->Password="ywxwhkvwgtzswmyg";
+$mail->SetFrom("rishabhsinha.projects@gmail.com");
 $mail->addAddress($username);
 $mail->IsHTML(true);
 $mail->Subject="Ready For Quiz";
@@ -51,7 +51,7 @@ $mail->SMTPOptions=array('ssl'=>array(
     'verify_peer_name'=>false,
     'allow_self_signed'=>false,
 ));
-
+echo "hello2";
 
 if ($mail->send()) {
     $_SESSION['mailStatus']='Sent';
@@ -65,7 +65,7 @@ else{
     $_SESSION['mailStatus']='Error';
 }
 
-
+echo "hello3";
 header("location: addstudent.php");
 
 

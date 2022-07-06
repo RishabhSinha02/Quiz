@@ -229,8 +229,8 @@ tr:hover {
                                             <th scope="col">Class</th>
                                             <th scope="col">Total Results</th>
                                             <th scope="col">Avg Result</th>
-                                            <!-- <th scope="col">Max Score</th> -->
-                                            <!-- <th scope="col">Min Score</th> -->
+                                            <th scope="col">Max Score</th>
+                                            <th scope="col">Min Score</th>
                                             <th scope="col">View</th>
                                         </tr>
                                     </thead>
@@ -269,14 +269,14 @@ tr:hover {
                   
                   ";
 
-                //   echo "<td>" . "Max Score" . " %</td>";
+                  echo "<td>" . "Max Score" . " %</td>";
                   
                   
                   
                   
-                //   echo "<td>" . "Min Score" . " %</td>";
+                  echo "<td>" . "Min Score" . " %</td>";
 
-                  echo"<td><button class='viewResult btn btn-sm btn-secondary' id='d".$class_id."' type='submit'>More</button></td>
+                  echo"<td><a href='/Quiz/admin/view_result.php?StudentResults=".$class_id."'><button class='viewResult btn btn-sm btn-secondary' id='d".$class_id."' type='submit'>More</button></a></td>
               </tr>";
               }
 ?>
