@@ -1,15 +1,30 @@
+# Quiz
+
+## TechStack
+
+<li>PHP</li>
+<li>HTML/CSS</li>
+<li>JavaScript</li>
+<li>MySQL</li>
+<li>AJAX</li>
+<li>JQuery</li>
+
+<li>Libraries: Bootstarp, FontAwesome </li>
+
+<hr>
+
+## Demo
+
+Project Hosted Link: http://54.82.240.8/Quiz<br>
+<br>
+Username: sinharishabh2002@gmail.com<br>
+Password: &@7lf4bj<br>
+<br>
+Use this account to login and attemp the quiz as a Student for demo.<br>
+<br>
 
 
-
-![image](https://user-images.githubusercontent.com/71089075/171994323-e3545f9f-488b-428d-8182-4c8e2a866f8d.png)
-
-
-
-
-
-
-
-
+<hr>
 <center><h1>Use case</h1></center>
 
 <h2>For Admin:</h2>
