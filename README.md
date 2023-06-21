@@ -1,4 +1,4 @@
-# Quiz
+# EdQuiz
 
 ## TechStack
 
